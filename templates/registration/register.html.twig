@@ -21,6 +21,8 @@ button.innerHTML = type === "password" ? "👁" : "🙈";
 			<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 		{% endfor %}
 
+		<a href="{{ path('app_home') }}">Accueil</a>
+
 		{% set formId = registrationForm.vars.id%}
 
 		<h1 class="mb-4">Inscription</h1>

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -47,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTime $date_of_birth = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable:true)]
     private ?string $profile_picture_url = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -64,6 +66,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $city = null;
+
+    /**
+     * @var Collection<int, TrainingSession>
+     */
+    #[ORM\OneToMany(targetEntity: TrainingSession::class, mappedBy: 'coach')]
+    private Collection $trainingSessions;
+
+    public function __construct()
+    {
+        $this->trainingSessions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -254,6 +267,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCity(?string $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrainingSession>
+     */
+    public function getTrainingSessions(): Collection
+    {
+        return $this->trainingSessions;
+    }
+
+    public function addTrainingSession(TrainingSession $trainingSession): static
+    {
+        if (!$this->trainingSessions->contains($trainingSession)) {
+            $this->trainingSessions->add($trainingSession);
+            $trainingSession->setCoach($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrainingSession(TrainingSession $trainingSession): static
+    {
+        if ($this->trainingSessions->removeElement($trainingSession)) {
+            // set the owning side to null (unless already changed)
+            if ($trainingSession->getCoach() === $this) {
+                $trainingSession->setCoach(null);
+            }
+        }
 
         return $this;
     }

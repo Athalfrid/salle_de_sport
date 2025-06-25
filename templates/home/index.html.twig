@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<h1>Bienvenue sur notre site !</h1>
+
+		<p>
+			Pour vous connecter, cliquez ici :
+			<a href="{{ path('app_login') }}">Se connecter</a>
+		</p>
+
+		<p>
+			Si vous n'avez pas encore de compte, inscrivez-vous ici :
+			<a href="{{ path('app_register') }}">S'inscrire</a>
+		</p>
+	</div>
+{% endblock %}
