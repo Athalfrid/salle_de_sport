@@ -41,7 +41,6 @@ cp .env .env.local
 # 4. Création de la base de données
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
-php bin/console doctrine:fixtures:load
 
 # 5. Lancer le serveur local
 symfony server:start
