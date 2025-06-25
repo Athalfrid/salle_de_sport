@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register
+{% endblock %}
+
+{%block javascripts %}
+	{{parent()}}
+	<script>
+		function togglePassword(fieldId, button) {
+const input = document.getElementById(fieldId);
+const type = input.getAttribute("type") === "password" ? "text" : "password";
+input.setAttribute("type", type);
+button.innerHTML = type === "password" ? "👁" : "🙈";
+}
+	</script>
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		{% for flash_error in app.flashes('verify_email_error') %}
+			<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+		{% endfor %}
+
+		{% set formId = registrationForm.vars.id%}
+
+		<h1 class="mb-4">Inscription</h1>
+
+		{{ form_start(registrationForm) }}
+		<div class="row">
+			<div class="col-md-6 border-end">
+				<div class="mb-3">
+					{{ form_label(registrationForm.first_name) }}
+					{{ form_widget(registrationForm.first_name) }}
+					{{ form_errors(registrationForm.first_name) }}
+				</div>
+				<div class="mb-3">
+					{{ form_label(registrationForm.last_name) }}
+					{{ form_widget(registrationForm.last_name) }}
+					{{ form_errors(registrationForm.last_name) }}
+				</div>
+				<div class="mb-3">
+					{{ form_label(registrationForm.email) }}
+					{{ form_widget(registrationForm.email) }}
+					{{ form_errors(registrationForm.email) }}
+				</div>
+				<div class="mb-3">
+					{{ form_label(registrationForm.plainPassword.first) }}
+					<div class="d-flex">
+						{{ form_widget(registrationForm.plainPassword.first) }}
+						{{ form_errors(registrationForm.plainPassword.first) }}
+						<button class="btn p-2" type="button" onclick="togglePassword('registration_form_plainPassword_first',this)">
+							👁
+						</button>
+					</div>
+				</div>
+
+				<div class="mb-3">
+					{{ form_label(registrationForm.plainPassword.second) }}
+					<div class="d-flex">
+						{{ form_widget(registrationForm.plainPassword.second) }}
+						{{ form_errors(registrationForm.plainPassword.second) }}
+						<button class="btn p-2" type="button" onclick="togglePassword('registration_form_plainPassword_second', this)">
+							👁
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="mb-3">
+					{{ form_label(registrationForm.date_of_birth) }}
+					{{ form_widget(registrationForm.date_of_birth) }}
+					{{ form_errors(registrationForm.date_of_birth) }}
+				</div>
+				<div class="mb-3">
+					{{ form_label(registrationForm.phone_number) }}
+					{{ form_widget(registrationForm.phone_number) }}
+					{{ form_errors(registrationForm.phone_number) }}
+				</div>
+				<div class="mb-3">
+					{{ form_label(registrationForm.address) }}
+					{{ form_widget(registrationForm.address) }}
+					{{ form_errors(registrationForm.address) }}
+				</div>
+				<div class="mb-3">
+					{{ form_label(registrationForm.postal_code) }}
+					{{ form_widget(registrationForm.postal_code) }}
+					{{ form_errors(registrationForm.postal_code) }}
+				</div>
+				<div class="mb-3">
+					{{ form_label(registrationForm.city) }}
+					{{ form_widget(registrationForm.city) }}
+					{{ form_errors(registrationForm.city) }}
+				</div>
+			</div>
+		</div>
+
+		<div class="mb-3 text-center p-3">
+			{{ form_row(registrationForm.agreeTerms) }}
+			<button type="submit" class="btn btn-primary mt-5">S'inscrire</button>
+		</div>
+
+		{{ form_end(registrationForm) }}
+	</div>
+{% endblock %}
